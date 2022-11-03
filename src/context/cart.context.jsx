@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
     }, [cartItems])
 
     const clearItemFromCart = (cartItemToClear) => {
-        setCartItems(removeCartItem(cartItems, cartItemToClear));
+        setCartItems(clearCartItem(cartItems, cartItemToClear));
     }
 
     const value = { isCartOpen, setIsCartOpen, addItemsToCart, cartItems, cartCount, cartTotal, removeItemFromCart, clearItemFromCart };
