@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, writeBatch } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -29,6 +29,31 @@ export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider)
 
 export const db = getFirestore();
 
+export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
+    const collectionRef = collection(db, collectionKey);
+
+    const batch = writeBatch(db);
+    objectToAdd.forEach(element => {
+        const docRef = doc(collectionRef, element.title.toLowerCase());
+        batch.set(docRef, element);
+    });
+    await batch.commit();
+    console.log("done");
+}
+
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnaphot) => {
+        const { title, items } = docSnaphot.data();
+        acc[title.toLowerCase()] = items;
+        return acc;
+    }, {});
+    return categoryMap;
+}
+
+
 export const createDocumentFromAuth = async (userAuth, additionalInformation) => {
     const userDocRef = doc(db, 'users', userAuth.uid);
 
@@ -48,7 +73,7 @@ export const createDocumentFromAuth = async (userAuth, additionalInformation) =>
                 ...additionalInformation
             });
         } catch (error) {
-            console.log("error creating the user", error.message);          
+            console.log("error creating the user", error.message);
         }
     }
     return userDocRef;
