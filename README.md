@@ -1,4 +1,4 @@
-Web: [https://playful-arithmetic-4fb0ec.netlify.app/](Shopping Application in React)
+Web: https://playful-arithmetic-4fb0ec.netlify.app/ (Shopping Application in React)
 
 # Getting Started with Create React App
 
