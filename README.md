@@ -1,3 +1,5 @@
+Web: [https://playful-arithmetic-4fb0ec.netlify.app/](Shopping Application in React)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
